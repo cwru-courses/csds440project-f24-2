@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.metrics.pairwise import rbf_kernel
+from sklearn.metrics.pairwise import rbf_kernel, pairwise_distances
 import scipy.sparse as sparse
 
 # Class to perform the label propagation algorithm
@@ -13,11 +13,18 @@ class LabelPropagation:
 
     tol: Convergence threshold. The algorithm will stop when the
          maximum change in labels between iters is less than this
+
+    alpha: Weight assigned to numerical similarity
+
+    beta: Weight assigned to categorical similarity
     """
-    def __init__(self, sigma=1.0, max_iter=1000, tol=1e-3):
+    def __init__(self, sigma=1.0, max_iter=1000, tol=1e-3, alpha=0.5, beta=0.5, dynamic_weights=True):
         self.sigma = sigma
         self.max_iter = max_iter
         self.tol = tol
+        self.alpha = alpha
+        self.beta = beta
+        self.dynamic_weights = dynamic_weights
 
     """
     Fit the label propagation model
@@ -33,9 +40,9 @@ class LabelPropagation:
 
     Returns an object that is the instance itself
     """
-    def fit(self, X, y_labeled, labeled_idx):
+    def fit(self, X_num, X_cat, y_labeled, labeled_idx):
         print("Starting the fit process...")
-        n_samples = X.shape[0]
+        n_samples = X_num.shape[0]
         n_classes = len(np.unique(y_labeled))
 
         # Initialize the label matrix using one-hot encoding
@@ -45,12 +52,16 @@ class LabelPropagation:
 
         # Build the graph
         print("Building similarity graph...")
-        W, D, P = self._build_graph(X)
+        W, D, L = self._build_graph(X_num, X_cat)
         print("Graph construction complete.")
 
         # Propagate labels
-        print("Starting label propagation...")
-        self.labeled_distributions_ = self._propagate_labels(P, Y, labeled_idx)
+        if self.dynamic_weights:
+            print("Starting dynamic label propagation...")
+            self.labeled_distributions_ = self._propagate_labels_dynamic(W, D, L, Y, labeled_idx)
+        else:
+            print("Starting standard label propagation...")
+            self.labeled_distributions_ = self._propagate_labels(L, Y, labeled_idx)
         print("Label propagation complete.")
 
         # Return the instance itself
@@ -73,31 +84,38 @@ class LabelPropagation:
     P: Transition matrix P = D^-1 * W
     ----------
     """
-    def _build_graph(self, X):
+    def _build_graph(self, X_num, X_cat):
         # Compute similarity matrix using gaussian kernel
         print("Computing similarity matrix using RBF kernel...")
-        W = rbf_kernel(X, X, gamma = 1 / (2 * self.sigma ** 2))
+        W_num = rbf_kernel(X_num, X_num, gamma = 1 / (2 * self.sigma ** 2))
+        W_cat = 1 - pairwise_distances(X_cat, metric='hamming')
+
+        W_num = W_num / W_num.max()
+        W_cat = W_cat / W_cat.max()
+
+        W_combined = self.alpha * W_num + self.beta * W_cat
+        # W = rbf_kernel(X, X, gamma = 1 / (2 * self.sigma ** 2))
 
         # Convert to kNN graph
         k = 10
         # For each row, zero out all but k largest values
-        n_samples = X.shape[0]
+        n_samples = X_num.shape[0]
         # Get indices of k largest values per row
-        indices = np.argsort(W, axis=1)[:, :-k]
+        indices = np.argsort(W_combined, axis=1)[:, :-k]
         # Zero out elements not in kNN
         for i in range(n_samples):
-            W[i, indices[i]] = 0
+            W_combined[i, indices[i]] = 0
         # Make symmetric
-        W = np.maximum(W, W.T)
+        W_combined = np.maximum(W_combined, W_combined.T)
         
         # Compute degree matrix
-        D = np.diag(np.sum(W, axis=1))
+        D = np.diag(np.sum(W_combined, axis=1))
         
         # Compute graph Laplacian 
-        L = D - W
+        L = D - W_combined
         print("Graph Laplacian constructed.")
         
-        return W, D, L
+        return W_combined, D, L
         
     """
     Run the label propagation algorithm
@@ -125,6 +143,65 @@ class LabelPropagation:
         f[unlabeled_idx] = fu
         return f
 
+    def _propagate_labels_dynamic(self, W, D, L, Y, labeled_idx):
+        """
+        Propagate labels with dynamic weight updates
+        """
+        n_samples = Y.shape[0]
+        unlabeled_idx = np.setdiff1d(np.arange(n_samples), labeled_idx)
+        
+        # Initialize
+        current_labels = Y.copy()
+        prev_labels = np.zeros_like(Y)
+        
+        for iter in range(self.max_iter):
+            # Update weights based on current predictions
+            W = self._update_weights(W, current_labels, labeled_idx)
+            
+            # Update D and L with new weights
+            D = np.diag(np.sum(W, axis=1))
+            L = D - W
+            
+            # Partition updated Laplacian
+            Luu = L[np.ix_(unlabeled_idx, unlabeled_idx)]
+            Lul = L[np.ix_(unlabeled_idx, labeled_idx)]
+            
+            # Solve harmonic function with updated weights
+            fu = -np.linalg.inv(Luu) @ Lul @ Y[labeled_idx]
+            
+            # Update labels
+            current_labels[unlabeled_idx] = fu
+            
+            # Check convergence
+            if np.abs(current_labels - prev_labels).max() < self.tol:
+                print(f"Converged after {iter + 1} iterations")
+                break
+                
+            prev_labels = current_labels.copy()
+        
+        return current_labels
+
+    def _update_weights(self, W, current_labels, labeled_idx):
+        n_samples = W.shape[0]
+        current_pred = np.argmax(current_labels, axis=1)
+
+        agreement_matrix = np.zeros_like(W)
+        for i in range(n_samples):
+            for j in range(n_samples):
+                if W[i, j] > 0:
+                    if current_pred[i] == current_pred[j]:
+                        agreement_matrix[i,j] = 1.0
+                    else:
+                        agreement_matrix[i, j] = 0.5
+
+        W_new = W * agreement_matrix
+
+        W_new = W_new / (W_new.max() + 1e-10)
+
+        W_new = np.maximum(W_new, W_new.T)
+
+        return W_new
+
     """
     Convert the label vector to one-hot encoded matrix
     Helps to ensure all classes are treated equally, if data has more than 2 classes
@@ -140,14 +217,18 @@ class LabelPropagation:
     ----------
     """
     def _one_hot_encode(self, y):
-        n_classes = len(np.unique(y))
+        classes = np.unique(y)
+        n_classes = len(classes)
         n_samples = len(y)
 
         # Create matrix that is num_samples x num_classes
         one_hot = np.zeros((n_samples, n_classes))
 
+        label_to_index = {label: idx for idx, label in enumerate(classes)}
+
         # Everything other than the corresponding class of the instance should be 0
-        one_hot[np.arange(n_samples), y] = 1
+        for i, label in enumerate(y):
+            one_hot[i, label_to_index[label]] = 1
 
         # Return the one-hot encoded label matrix
         return one_hot
