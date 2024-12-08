@@ -1,0 +1,1 @@
+To run the M2 model with MNIST dataset use : python main.py --dataset MNIST 
