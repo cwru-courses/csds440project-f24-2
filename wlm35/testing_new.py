@@ -288,7 +288,7 @@ def main_mnist_dataset():
     
     # Define hyperparameter grid appropriate for MNIST
     hyperparameters = {
-        'sigma': [0.1, 1.0, 10.0, 100.0, 500.0],  # Smaller range due to normalized pixel values
+        'sigma': [0.1, 1.0, 10.0, 100.0, 500.0],
         'max_iter': [500],
         'tol': [1e-3],
         'alpha': [0.99],
@@ -315,7 +315,7 @@ def main_mnist_dataset():
     plt.figure(figsize=(8, 6))
     ax = plt.gca()
     results_df.groupby('sigma')['accuracy'].mean().plot(kind='line', marker='o', ax=ax)
-    ax.set_title("MNIST: Accuracy vs Sigma with Dynamic Weight Updates")
+    ax.set_title("MNIST: Accuracy vs Sigma with Dynamic Weights")
     ax.set_xlabel("Sigma")
     ax.set_ylabel("Accuracy")
     plt.grid(True)
@@ -326,7 +326,7 @@ def main_mnist_dataset():
     plt.figure(figsize=(8, 6))
     ax = plt.gca()
     split_results_df.plot(x='split_size', y='accuracy', kind='line', marker='o', ax=ax)
-    ax.set_title("MNIST: Accuracy vs Split Size with Dynamic Weight Updates")
+    ax.set_title("MNIST: Accuracy vs Split Size with Dynamic Weights")
     ax.set_xlabel("Test Size")
     ax.set_ylabel("Accuracy")
     plt.grid(True)

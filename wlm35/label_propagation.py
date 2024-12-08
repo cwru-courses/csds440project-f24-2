@@ -1,6 +1,8 @@
 import numpy as np
 from sklearn.metrics.pairwise import rbf_kernel, pairwise_distances
 import scipy.sparse as sparse
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
+import pandas as pd
 
 # Class to perform the label propagation algorithm
 class LabelPropagation:
@@ -40,28 +42,21 @@ class LabelPropagation:
     Returns an object that is the instance itself
     """
     def fit(self, X_num, X_cat, y_labeled, labeled_idx):
-        print("Starting the fit process...")
         n_samples = X_num.shape[0]
         n_classes = len(np.unique(y_labeled))
 
         # Initialize the label matrix using one-hot encoding
-        print("Initializing label matrix...")
         Y = np.zeros((n_samples, n_classes))
         Y[labeled_idx] = self._one_hot_encode(y_labeled)
 
         # Build the graph
-        print("Building similarity graph...")
         W, D, L = self._build_graph(X_num, X_cat)
-        print("Graph construction complete.")
 
         # Propagate labels
         if self.dynamic_weights:
-            print("Starting dynamic label propagation...")
             self.labeled_distributions_ = self._propagate_labels_dynamic(W, D, L, Y, labeled_idx)
         else:
-            print("Starting standard label propagation...")
             self.labeled_distributions_ = self._propagate_labels(L, Y, labeled_idx)
-        print("Label propagation complete.")
 
         # Return the instance itself
         return self
@@ -81,7 +76,6 @@ class LabelPropagation:
     """
     def _build_graph(self, X_num, X_cat):
         # Compute similarity matrix using gaussian kernel
-        print("Computing similarity matrix using RBF kernel...")
         W_num = rbf_kernel(X_num, X_num, gamma = 1 / (2 * self.sigma ** 2))
         W_cat = 1 - pairwise_distances(X_cat, metric='hamming')
 
@@ -108,7 +102,6 @@ class LabelPropagation:
         
         # Compute graph Laplacian 
         L = D - W_combined
-        print("Graph Laplacian constructed.")
         
         return W_combined, D, L
         
@@ -170,7 +163,6 @@ class LabelPropagation:
             
             # Check convergence
             if np.abs(current_labels - prev_labels).max() < self.tol:
-                print(f"Converged after {iter + 1} iterations")
                 break
                 
             prev_labels = current_labels.copy()
@@ -237,3 +229,4 @@ class LabelPropagation:
             return self.labeled_distributions_
         else:
             return np.argmax(self.labeled_distributions_, axis=1)
+        
