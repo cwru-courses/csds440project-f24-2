@@ -6,17 +6,18 @@ import scipy.sparse as sparse
 class LabelPropagation:
 
     """
-    sigma: Gaussian kernel width. Larger values mean dimilarity
+    Parameters:
+    - sigma: Gaussian kernel width. Larger values mean dimilarity
            decays slower with dist bw points
     
-    max_iter: Maximum number of iterations for label propagation
+    - max_iter: Maximum number of iterations for label propagation
 
-    tol: Convergence threshold. The algorithm will stop when the
+    - tol: Convergence threshold. The algorithm will stop when the
          maximum change in labels between iters is less than this
 
-    alpha: Weight assigned to numerical similarity
+    - alpha: Weight assigned to numerical similarity
 
-    beta: Weight assigned to categorical similarity
+    - beta: Weight assigned to categorical similarity
     """
     def __init__(self, sigma=1.0, max_iter=1000, tol=1e-3, alpha=0.5, beta=0.5, dynamic_weights=True):
         self.sigma = sigma
@@ -29,14 +30,12 @@ class LabelPropagation:
     """
     Fit the label propagation model
 
-    Parameters
-    ----------
-    X: Input data matrix
+    Parameters:
+    - X: Input data matrix
 
-    y_labeled: labels for labeled data
+    - y_labeled: labels for labeled data
 
-    labeled_idx: indices of labeled points in X
-    ----------
+    - labeled_idx: indices of labeled points in X
 
     Returns an object that is the instance itself
     """
@@ -70,19 +69,15 @@ class LabelPropagation:
     """
     Construct the similarity graph from the input data
 
-    Parameters
-    ----------
-    X: Input data matrix
-    ----------
+    Parameters:
+    - X: Input data matrix
 
     Returns
-    ----------
-    W: Similarity matrix where W[i,j] is similarity between points i and j
+    - W: Similarity matrix where W[i,j] is similarity between points i and j
 
-    D: Diagonal degree matrix where D[i,i] is the sum of row i in W
+    - D: Diagonal degree matrix where D[i,i] is the sum of row i in W
 
-    P: Transition matrix P = D^-1 * W
-    ----------
+    - P: Transition matrix P = D^-1 * W
     """
     def _build_graph(self, X_num, X_cat):
         # Compute similarity matrix using gaussian kernel
@@ -120,13 +115,12 @@ class LabelPropagation:
     """
     Run the label propagation algorithm
 
-    Parameters
-    ----------
-    P: Transition matrix for label propagation
+    Parameters:
+    - P: Transition matrix for label propagation
 
-    y_initial: Initial labels
+    - y_initial: Initial labels
 
-    labeled_idx: Indices of labeled points
+    - labeled_idx: Indices of labeled points
     """
     def _propagate_labels(self, L, y_initial, labeled_idx):
         n_samples = y_initial.shape[0]
@@ -143,10 +137,12 @@ class LabelPropagation:
         f[unlabeled_idx] = fu
         return f
 
+    """
+    Propagate labels with dynamic weight updates
+
+    RESEARCH EXTENSION IMPLEMENTATIONS
+    """
     def _propagate_labels_dynamic(self, W, D, L, Y, labeled_idx):
-        """
-        Propagate labels with dynamic weight updates
-        """
         n_samples = Y.shape[0]
         unlabeled_idx = np.setdiff1d(np.arange(n_samples), labeled_idx)
         
@@ -206,15 +202,10 @@ class LabelPropagation:
     Convert the label vector to one-hot encoded matrix
     Helps to ensure all classes are treated equally, if data has more than 2 classes
     
-    Parameters
-    ----------
-    y: Vector of class labels
-    ----------
+    Parameters:
+    - y: Vector of class labels
     
-    Returns
-    ----------
-    one_hot: One hot encoded matrix where each row corresponds to a label in y
-    ----------
+    Returns one_hot: One hot encoded matrix where each row corresponds to a label in y
     """
     def _one_hot_encode(self, y):
         classes = np.unique(y)
@@ -234,17 +225,12 @@ class LabelPropagation:
         return one_hot
 
     """
-    Parameters
-    ----------
-    return_distributions: if true, return raw scores. If false, return binary predictions
-    ----------
+    Parameters:
+    - return_distributions: if true, return raw scores. If false, return binary predictions
 
-    Returns
-    ----------
-    predictions: 
+    Returns predictions: 
         if return_distributions=False, return predicted class labels
         if return_distributions=True, returns probability distributions
-    ----------
     """
     def predict(self, return_distributions=False):
         if return_distributions:
