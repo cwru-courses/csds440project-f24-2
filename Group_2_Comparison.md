@@ -35,7 +35,29 @@ Experiment: Analyzing the impact of varying unlabeled set sizes on model perform
 **MNIST dataset**
 
 - **Results for Method 1**: Provide the outcome of experiments conducted using Method 1.
-- **Results for Method 2**: Provide the outcome of experiments conducted using Method 2.
+- **Results for Method 2**:
+       Different times different epoch values are given to check the validation accuracy and traning loss
+          Below is a table summarizing the average accuracy and loss over different epochs during the training process:(mean- teachers)
+          
+          | Epochs | Average  Accuracy (%) | Average Training Loss |
+          |--------|----------------------|-----------------------|
+          | 10     | 97.61                | 0.08237               |
+          | 20     | 98.43                | 0.0355                |
+          | 30     | 98.40                | 0.0280                |
+          
+          This table illustrates the progression of the model's performance, showing improvements in accuracy and reductions in loss as the number of training epochs increases.
+          
+          
+          Below is a table summarizing the average accuracy and loss over different epochs during the training process: (for mean- teachers+mixmatch)
+          
+          | Number of Epochs | Average Training Loss | Average  Accuracy (%) |
+          |------------------|-----------------------|---------------------------------|
+          | 10               | 1.73                  | 87.37                           |
+          | 20               | 1.69                  | 87.53                           |
+          | 30               | 1.63                  | 88.78                           |
+
+
+
 - **Two-view Feature Generation Model**:
 ![ahh](synthetic_varying_proportion.png)
 
