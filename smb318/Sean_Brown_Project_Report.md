@@ -42,4 +42,5 @@ Here, the improvements from modifiedTriTraining are much more pronounced. I beli
 Overall, I would say that modifiedTriTraining proved successful in reducing the error rate. Depending on the properties of the data being used, a set of 3 base learners can be chosen to complement each other's strengths and mitigate each other's weaknesses. modifiedTriTraining showed more improvement on the ionosphere dataset, where overfitting was a greater problem and increased diversity had greater benefits. This shows that the extension is generalizable, targets key weaknesses of tri-training, and is a robust and valuable method.
 
 ## Bibliography
+Blum, Avrim and Tom Mitchell. "Combining Labeled and Unlabeled Data with Co-Training."
 Zhou, Zhi-Hua and Ming Li. "Tri-Training: Exploiting Unlabeled Data Using Three Classifiers."
