@@ -3,3 +3,7 @@ pip3 install torch
 
 
 pip3 install torchvision
+
+# to run the code you need to give
+
+python3 main.py (if you are in extension directory you should move your terminal path over there.)
