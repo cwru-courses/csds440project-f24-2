@@ -68,6 +68,10 @@ Below are the performances of method 3 on the "Australia" and "ionosphere" datas
 
 ![](smb318/comparison_plots/australia.png)
 
+![](smb318/comparison_plots/ionosphere.png)
+
+As we can see from the plots above, modifiedTriTraining produces a higher error rate than the other methods. However, 
+
 ### Analysis and Discussion
 
 - **Analysis of Method 1**: The results of this experiment on the MNIST dataset are similar to the results provided in the initial paper, with slightly lower performance after the research extension of dynamic weights was applied.
