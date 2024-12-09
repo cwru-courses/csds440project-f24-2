@@ -238,6 +238,11 @@ The even though the perfomance is increased with number of epochs compared to me
 - The research extension did not work as expected compared to mean teachers  because of above stated reasons. we have used the unlabelled data by giving pseudo label but it did not work properly. 
 **futurewor** :- Check the different approaches stated in the survey also check the results in other datasets also. may be explore different augumentation techiniques which will work this this kind of specifi datasets. 
 
+## Bibliography
+1.Xie, Qizhe, et al. "Self-training with noisy student improves imagenet classication." Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2020.
+2. Miyato, Takeru, et al. "Virtual adversarial training: a regularization method for supervised and semi-supervised learning." IEEE transactions on pattern analysis and machine intelligence 41.8 (2018): 1979-1993
+3. Sohn, Kihyuk, et al. "Fixmatch: Simplifying semi-supervised learning with consistency and condence." arXiv preprint arXiv:2001.07685 (2020).
+
 
 **Note** all the equations are properly rendering in visual studion. please check on the visual studio.
 
