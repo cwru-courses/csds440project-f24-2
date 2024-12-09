@@ -8,9 +8,7 @@ The methods in this study all come from our original seed paper. Overall, it dis
 
 2. **Method 2**: Mean teachers are better role models: Weight-averaged consistency targets improve semi-supervised deep learning results. This method was contributed by [Prasanna Kumar peram]. You can find more details in their individual report: [https://github.com/cwru-courses/csds440project-f24-2/blob/main/pxp488/PrasannaKumarPeram_Project_Report.md].
 3. **Method 3**: modifiedTriTraining. This method was contributed by Sean Brown. You can find more details in their individual report: [[link to individual report 3](https://github.com/cwru-courses/csds440project-f24-2/blob/main/smb318/Sean_Brown_Project_Report.md)].
-1. **Method 1**: Brief description of Method 1. This method was contributed by Stephanie. You can find more details in their individual report: [link to individual report 1].
-2. **Method 2**: Brief description of Method 2. This method was contributed by [Group Member 2 Name]. You can find more details in their individual report: [link to individual report 2].
-3. **Two-view Feature Generation Model**: 
+4. **Two-view Feature Generation Model**: 
 
 The key idea in this approach is to define a set of auxiliary problems to enhance semi-supervised learning. Unlike co-training, where each view is assumed to be sufficient for classification, this method uses one view ($z_2$) to predict some function of the other view ($m(z_1)$), with $m$ indexing different auxiliary problems. These auxiliary tasks can be trained on unlabeled data.
 
@@ -124,7 +122,7 @@ This model did not perform better than a base logistic regression model. Compare
 - **Results for Method 3**:
 Below are the performances of method 3 on the "Australia" and "ionosphere" datasets, respectively (both are from the UCI ML repository). 
 
-![](smb318/comparison_plots/australia.png)  s
+![](smb318/comparison_plots/australia.png) 
 
 ![](smb318/comparison_plots/ionosphere.png)
 
@@ -132,10 +130,4 @@ As we can see from the plots above, modifiedTriTraining produces a higher error 
 
 ### Analysis and Discussion
 
-- **Analysis of Method 1**: The results of this experiment on the MNIST dataset are similar to the results provided in the initial paper, with slightly lower performance after the research extension of dynamic weights was applied.
-
-- **Best Performing Methods**: Which methods performed the best overall? Describe why these methods performed well in the given context.
-- **Research Extensions**: Discuss how extensions or variations of the methods worked. Which adaptations were successful, and why?
-- **Key Insights**: Summarize what the group learned from comparing these methods. Were there any surprises or unexpected findings? What challenges did the group face during this comparison?
-- **Conclusions**: Provide the final conclusions drawn from the comparison. Based on the results and analysis, what do you recommend for future experiments or improvements?
-
+The results of this experiment on the MNIST dataset are similar to the results provided in the initial paper, with slightly lower performance after the research extension of dynamic weights was applied. We mostly used the MNIST dataset for our comparisons. The MNIST dataset is an image dataset used for classifying handwritten numbers. Overall, our implementations give a broad coverage of the field of semi-supervised learning. Potentially, these methods could be combined in future research. For example, Sean's research on Tri-training would be complementary with Stephanie's research on view learning.
