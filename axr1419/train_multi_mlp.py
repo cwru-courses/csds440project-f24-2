@@ -2,7 +2,7 @@ import numpy as np
 from datasets import load_dataset
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
-from multi_mlp import MLP
+from mlp_multi import MLP
 
 # Load the dataset i.e. CIFAR-10
 data = load_dataset("uoft-cs/cifar10")
