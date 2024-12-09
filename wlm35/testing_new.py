@@ -309,7 +309,6 @@ def main_mnist_dataset():
     from sklearn.datasets import fetch_openml
     from sklearn.utils import resample
     
-    print("Loading MNIST dataset...")
     X, y = fetch_openml('mnist_784', version=1, return_X_y=True, as_frame=False)
     
     # Convert data to float32 for memory efficiency
@@ -323,7 +322,6 @@ def main_mnist_dataset():
     X_sampled = []
     y_sampled = []
     
-    print("Creating balanced sample...")
     for class_label in range(10):
         class_mask = (y.astype(int) == class_label)
         X_class = X[class_mask]
@@ -418,4 +416,4 @@ def main_mnist_dataset():
         plt.show()
 
 if __name__ == "__main__":
-    main_chess_dataset()
+    main_mnist_dataset()
