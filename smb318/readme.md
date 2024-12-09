@@ -1,1 +1,3 @@
+My project uses Python 3.13.0.
+
 The necessary packages for replicating my experiments are listed in requirements.txt. After importing the necessary packages, replicating my experiments can be done by simply running main.py. This will replicate the plots in "comparison_plots" for the Australia and ionosphere datasets, respectively. Both datasets are retrieved using the fetch_ucirepo package, so no datasets need to be downloaded. The preprocessed_datasets() method will gather them, and return the features and labels for each dataset. From there, the combinations of classifiers for modifiedTriTraining are defined, and the compare_performance() method is run on each dataset, outputting the plots.
