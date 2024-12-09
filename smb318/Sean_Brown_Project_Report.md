@@ -1,4 +1,13 @@
 ## Survey
+I primarily used two papers for my research: Blum and Mitchell's paper introducing co-training, and Zhou and Li's paper introducing tri-training.
+
+In their paper, Blum and Mitchell introduce the co-training algorithm, which uses labeled and unlabeled data. Two classifiers are trained on different feature sets of the labeled dataset, and each classifier labels the most confident unlabeled examples, providing the answers to the other classifier. Then, the classifiers retrain on the newly labeled data, and the process repeats iteratively until the labeled set no longer changes. The authors demonstrate that co-training can be effective when the feature sets are sufficient (e.g. enough to predict labels on its own) and redundant (the feature sets must be independent of each other given the class label).
+
+I thought that this paper did an excellent job explaining the conditions under which co-training is likely to succeed. This provides a firm justification for the algorithm while also demonstrating its limitations. I thought that the comparison to a weighted bipartite graph was helpful. Third, I liked that the authors provided empirical data of the performance on real web-page data. This showed that the algorithm can improve performance in real-world scenarios. Some weaknesses of this paper are that the paper focuses on a two-view approach, and that it doesn't address how to handle pseudo-labeling in practice.
+
+The other paper that I used was Zhou and Li's paper introducing tri-training. I thought that the authors did a great job making their paper easy to read despite large number of variables and equations to keep track of. Everything was well defined, and the pseudocode provided was easy to understand. Zhou and Li provided a strong justification for when the algorithm will improve performance, and make it clear how it is an upgrade over co-training.
+
+However, like with co-training, it would have been nice for the authors to address the problem of pseudo-labeling. This is less of an issue than it is with co-training, given that we use 3 classifiers instead of 2, but it would have helped to have some discussion on how big an issue it is, what can be done about it, etc. I also thought that Zhou and Li could have used more base learners in their performance evaluation. As I will show in modifiedTriTraining, the base learner chosen can have a significant impact on performance.
 
 ## Methods
 For my project, I implemented the tri training algorithm, which is a semi-supervised learning technique that leverages multiple classifiers to improve the performance of a model. In many applications, unlabeled training examples are much more available than labeled ones. As a result, co-training is a popular learning algorithm. In co-training, two classifiers (C1 and C2) are trained on two distinct, complementary views of a dataset (often split by their features). After the classifiers are trained on a labeled dataset, each classifier labels a portion of the unlabeled data. The most confident predictions of C1 are added to the training set of C2, and vice versa. The classifiers are retrained iteratively until the labeled set no longer changes.
@@ -42,5 +51,5 @@ Here, the improvements from modifiedTriTraining are much more pronounced. I beli
 Overall, I would say that modifiedTriTraining proved successful in reducing the error rate. Depending on the properties of the data being used, a set of 3 base learners can be chosen to complement each other's strengths and mitigate each other's weaknesses. modifiedTriTraining showed more improvement on the ionosphere dataset, where overfitting was a greater problem and increased diversity had greater benefits. This shows that the extension is generalizable, targets key weaknesses of tri-training, and is a robust and valuable method.
 
 ## Bibliography
-Blum, Avrim and Tom Mitchell. "Combining Labeled and Unlabeled Data with Co-Training."
-Zhou, Zhi-Hua and Ming Li. "Tri-Training: Exploiting Unlabeled Data Using Three Classifiers."
+Blum, Avrim and Tom Mitchell. "Combining Labeled and Unlabeled Data with Co-Training," https://www.cs.cmu.edu/~avrim/Papers/cotrain.pdf.
+Zhou, Zhi-Hua and Ming Li. "Tri-Training: Exploiting Unlabeled Data Using Three Classifiers," https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=a7d685ff8532ecb972c9382f86dea53ee7528264.
