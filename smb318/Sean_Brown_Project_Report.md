@@ -31,5 +31,11 @@ Below is a plot of the results for the Australia dataset.
 
 ![](comparison_plots/australia.png)
 
+As we can see, different combinations of classifiers were able to improve on regular tri-training for different unlabel rates. combo_1, which uses decision trees, logistic regression, and k nearest neighbors, performed as well as or better than tri-training at high unlabel rates. This makes sense, since these models are flexible and don't rely heavily on strong assumptions. At low unlabel rates, combo_2 (SVM, naive Bayes, decision tree) was the best performer. It was comparable to tri-training at an unlabel rate of 0.2, and did far better at a rate of 0.4. This also makes sense, since SVM and naive Bayes benefit a lot from sufficient labeled data. Overall, I would say that modifiedTriTraining provided some improvement on this dataset, but nothing spectacular. The only unlabel rate where tri-training was significantly outperformed was 0.4, and there was no combination of classifiers that outperformed tri-training across all unlabel rates.
+
+Below is a plot of the results for the ionosphere dataset.
+
+![](comparison_plots/ionosphere.png)
+
 ## Bibliography
 
