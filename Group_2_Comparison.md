@@ -17,62 +17,6 @@ A linear model, $w_m^\top z_2$, is used to fit $m(z_1)$, and the weight vector $
 Singular Value Decomposition (SVD) is applied to the matrix of weights to extract a compact representation of $z_2$, and a similar transformation is done for $z_1$ by swapping the roles of $z_1$ and $z_2$. The original representation $(z_1, z_2)$ is then concatenated with the new representations of $z_1$ and $z_2$ to create a new feature vector. This new representation incorporates information from unlabeled data and the auxiliary problems, and is used in standard supervised learning with labeled data. The selection of appropriate auxiliary problems is very important to this approach.
 4. **Method 4**: **Optimized-ELBO for Semi-Supervised Learning**(By Ravi Raj Kumar (rxk789)):  
    This method is based on the integration of the Optimized-ELBO framework into the semi-supervised Variational Autoencoder (VAE) M2 model. Key enhancements include entropy regularization, mutual information maximization, and a direct optimization term for the labeled ELBO using label smoothing and cross-entropy loss. These adjustments address the issues identified in the original M2 model, such as entropy mismanagement and poor utilization of labeled data, to improve classification performance and alignment with the cluster assumption.  
-
-## **Results, Analysis, and Discussion method 4**
-
-### **Experiments**
-
-#### **Dataset**
-The experiments were conducted on the following datasets:
-1. **MNIST**: 
-2. **CIFAR-10**
-#### **Methodology**
-- **Evaluation Metrics**: Classification accuracy, entropy, and mutual information were evaluated over 50 epochs.
-- **Hyperparameters**: Consistent settings were used across methods to ensure fair comparisons:
-  - Latent Dimension: 50
-  - Batch Size: 128
-  - Learning Rate: \(1e-3\)
-  - Optimizer: Adam
-  - Number of Epochs: 50
-- **Architectural Details**:  
-   The original M2 model's MLP architecture was replaced with a CNN-based encoder-decoder architecture for image datasets.
-
----
-
-### **Results**
-
-#### **MNIST**
-- **Original M2 Model**: Achieved an accuracy of 95.3%.
-- **Optimized-ELBO**: Improved accuracy to 97.8%, representing a 2.5% gain.
-
-<img src="rxk789/images/mnist_results.png" alt="mnist_results" width="700">
-
-#### **CIFAR-10**
-- **Original M2 Model**: Achieved an accuracy of 40.2%.
-- **Optimized-ELBO**: Improved accuracy to 42.2%, representing a modest 2% gain.
-
-| **Dataset** | **Model**        | **Accuracy (%)** | **Improvement (%)** |
-|-------------|------------------|------------------|---------------------|
-| **MNIST**   | Original M2      | 95.3             | +0.0               |
-|             | Optimized-ELBO   | 97.8             | +2.5               |
-| **CIFAR-10**| Original M2      | 40.2             | +0.0               |
-|             | Optimized-ELBO   | 42.2             | +2.0               |
-
----
-
-### **Analysis and Discussion**
-
-#### **Best Performing Methods**
-- The **Optimized-ELBO** demonstrated consistent improvements over the original M2 model, especially for the MNIST dataset.
-- The improvements were more modest for CIFAR-10, likely due to the complexity of the dataset and limitations of the simple architecture.
-
-#### **Research Extensions**
-1. **Entropy Regularization**:
-   - The Optimized-ELBO reduced classifier entropy, addressing the increasing entropy issue identified in the original M2 model.
-   - Results confirmed improved decision boundary alignment with low-density regions.
-2. **Improved Labeled ELBO**:
-   - By incorporating label smoothing and cross-entropy loss, the Optimized-ELBO effectively leveraged labeled data, leading to enhanced classifier performance.
-
 ## Results, Analysis, and Discussion
 
 ### Experiments
