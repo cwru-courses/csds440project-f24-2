@@ -15,7 +15,7 @@ The key idea in this approach is to define a set of auxiliary problems to enhanc
 A linear model, $w_m^\top z_2$, is used to fit $m(z_1)$, and the weight vector $w_m$ is learned from all the unlabeled data. Each weight vector $w_m$ has the same dimension as $z_2$. Some dimensions of the set of weights may be more important, indicating that corresponding dimensions in $z_2$ are more useful for the task.
 
 Singular Value Decomposition (SVD) is applied to the matrix of weights to extract a compact representation of $z_2$, and a similar transformation is done for $z_1$ by swapping the roles of $z_1$ and $z_2$. The original representation $(z_1, z_2)$ is then concatenated with the new representations of $z_1$ and $z_2$ to create a new feature vector. This new representation incorporates information from unlabeled data and the auxiliary problems, and is used in standard supervised learning with labeled data. The selection of appropriate auxiliary problems is very important to this approach.
-4. **Method 4**: **Optimized-ELBO for Semi-Supervised Learning**(By Ravi Raj Kumar (rxk789)): [https://github.com/cwru-courses/csds440project-f24-2/tree/main/rxk789]  
+4. **Method 5**: **Optimized-ELBO for Semi-Supervised Learning**(By Ravi Raj Kumar (rxk789)): [https://github.com/cwru-courses/csds440project-f24-2/tree/main/rxk789]  
    This method is based on the integration of the Optimized-ELBO framework into the semi-supervised Variational Autoencoder (VAE) M2 model. Key enhancements include entropy regularization, mutual information maximization, and a direct optimization term for the labeled ELBO using label smoothing and cross-entropy loss. These adjustments address the issues identified in the original M2 model, such as entropy mismanagement and poor utilization of labeled data, to improve classification performance and alignment with the cluster assumption.  
 ## Results, Analysis, and Discussion
 
@@ -72,6 +72,52 @@ Below are the performances of method 3 on the "Australia" and "ionosphere" datas
 
 As we can see from the plots above, modifiedTriTraining produces a higher error rate than the other methods, using a lower unlabel rate. 
 
+## **Results, Analysis, and Discussion for method 5**
+
+### **Experiments**
+
+#### **Dataset**
+The experiments were conducted on the following datasets:
+1. **MNIST**: 
+2. **CIFAR-10**
+#### **Methodology**
+- **Evaluation Metrics**: Classification accuracy, entropy, and mutual information were evaluated over 50 epochs.
+- **Hyperparameters**: Consistent settings were used across methods to ensure fair comparisons:
+  - Latent Dimension: 50
+  - Batch Size: 128
+  - Learning Rate: \(1e-3\)
+  - Optimizer: Adam
+  - Number of Epochs: 50
+- **Architectural Details**:  
+   The original M2 model's MLP architecture was replaced with a CNN-based encoder-decoder architecture for image datasets.
+
+---
+
+### **Results**
+
+#### **MNIST**
+- **Original M2 Model**: Achieved an accuracy of 95.3%.
+- **Optimized-ELBO**: Improved accuracy to 97.8%, representing a 2.5% gain.
+
+<img src="rxk789/images/mnist_results.png" alt="mnist_results" width="700">
+
+#### **CIFAR-10**
+- **Original M2 Model**: Achieved an accuracy of 40.2%.
+- **Optimized-ELBO**: Improved accuracy to 42.2%, representing a modest 2% gain.
+
+| **Dataset** | **Model**        | **Accuracy (%)** | **Improvement (%)** |
+|-------------|------------------|------------------|---------------------|
+| **MNIST**   | Original M2      | 95.3             | +0.0               |
+|             | Optimized-ELBO   | 97.8             | +2.5               |
+| **CIFAR-10**| Original M2      | 40.2             | +0.0               |
+|             | Optimized-ELBO   | 42.2             | +2.0               |
+
+---
+
 ### Analysis and Discussion
 
 The results of this experiment on the MNIST dataset are similar to the results provided in the initial paper, with slightly lower performance after the research extension of dynamic weights was applied. We mostly used the MNIST dataset for our comparisons. The MNIST dataset is an image dataset used for classifying handwritten numbers. Overall, our implementations give a broad coverage of the field of semi-supervised learning. Potentially, these methods could be combined in future research. For example, Sean's research on Tri-training would be complementary with Stephanie's research on view learning.
+
+ 
+
+
