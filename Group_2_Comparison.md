@@ -59,9 +59,10 @@ Experiment: Analyzing the impact of varying unlabeled set sizes on model perform
 
 
 - **Two-view Feature Generation Model**:
-![ahh](synthetic_varying_proportion.png)
 
-This model did not perform better than a base logistic regression model.
+![ahh](sal164_group_plot.png)
+
+This model did not perform better than a base logistic regression model. Compared to the other methods, this was not as effective, with a noticeable lower loss when compared to Methods 1 and 2. This method was likely more simple compared to the other semi-supervised methods implemented and did not learn as much from the unlabeled data.
 
 
 

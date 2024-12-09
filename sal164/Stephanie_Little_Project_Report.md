@@ -312,6 +312,14 @@ AI was used somewhat to help format this report.
 
 ## 5. Bibliography
 
+[1] Ando, R., & Zhang, T. (2005). A framework for learning predictive structures from multiple tasks and unlabeled data. Journal of Machine Learning Research, 6, 1817–1853.
 
+[2] Ando, R., & Zhang, T. (2005). A framework for learning predictive structures from multiple tasks and unlabeled data. Journal of Machine Learning Research, 6, 1817–1853.
+
+[3] Blum, A., & Mitchell, T. (1998). Combining labeled and unlabeled data with co-training. COLT: Proceedings of the Workshop on Computational Learning Theory
+
+[4] Chen et al. (2020) A Simple Framework for Contrastive Learning of Visual Representations
+
+[5] Zhu () Semi-Supervised Learning Literature Survey (seed paper)
 
 
