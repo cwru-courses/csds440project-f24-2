@@ -13,28 +13,24 @@ Brief description of the methods compared in this study and attribute each metho
 
 ### Experiments
 
-Summarize the experiments conducted by the group, including the datasets and methodology used.
+Experiment: Analyzing the impact of varying unlabeled set sizes on model performance
 
-- **Dataset**: Provide details on the dataset(s) used for the comparison, including size, structure, and any relevant features.
-- **Methodology**: Describe the experimental setup, including the evaluation metrics, hyperparameters, and any important steps followed during the experiments.
+- **Dataset**: For this experiment, we used the MNIST image classification dataset. 
+- **Methodology**: Semi-supervised learning algorithms separate the dataset into partitions where some examples are given labels and other examples are stripped of theirs. The proportion of examples that do not have labels has a significant impact on the performance of the method. Ideally, the methods will perform well with very few available labels. For this experiment, we set the unlabeled sets to be of proportions 0.9, 0.95, and 0.98 of the entire dataset. We then plotted their accuracy to get a measure of which methods perform best when very little labeled data is provided.
 
 ### Results
 
-Present the results of the experiments. Include tables, figures, or graphs to make the data more accessible. Ensure that the results are clearly labeled and explained.
-
-- **Results for Method 1**: Provide the outcome of experiments conducted using Method 1.
+- **Results for Method 1**:
+![Weston's results](wlm35_group_plot.png)
 - **Results for Method 2**: Provide the outcome of experiments conducted using Method 2.
 - **Results for Method 3**: Provide the outcome of experiments conducted using Method 3.
 
 ### Analysis and Discussion
 
-Interpret the results and compare the performance of each method.
+- **Analysis of Method 1**: The results of this experiment on the MNIST dataset are similar to the results provided in the initial paper, with slightly lower performance after the research extension of dynamic weights was applied.
 
 - **Best Performing Methods**: Which methods performed the best overall? Describe why these methods performed well in the given context.
 - **Research Extensions**: Discuss how extensions or variations of the methods worked. Which adaptations were successful, and why?
 - **Key Insights**: Summarize what the group learned from comparing these methods. Were there any surprises or unexpected findings? What challenges did the group face during this comparison?
 - **Conclusions**: Provide the final conclusions drawn from the comparison. Based on the results and analysis, what do you recommend for future experiments or improvements?
 
-
-
-![Dynamic harmonic algorithm](wlm35_group_plot.png)
