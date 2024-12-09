@@ -15,66 +15,66 @@ This is a foundational paper introduces semi-supervised learning frameworks usin
 ### **Key Contributions**
 
 1. **M1 and M2 Architectures**:  
-   - **M1**: It is a latent-variable generative model where \(z\) is latent feature reepresnting continous space. Another classifier is trained on inferred latent variables.
-   - **M2**: I is a generative semi-supervised model combining the latent variable \(z\) and class labels \(y\), traininig is done jointly using the Evidence Lower Bound (ELBO).
+- **M1**: It is a latent-variable generative model where \(z\) is latent feature reepresnting continous space. Another classifier is trained on inferred latent variables.
+- **M2**: I is a generative semi-supervised model combining the latent variable \(z\) and class labels \(y\), traininig is done jointly using the Evidence Lower Bound (ELBO).
 
 2. **Objective**:  
-   The semi-supervised objective integrates labeled aswell as unlabeled data using the ELBO, leading to effective training of the generative and inference models.
+The semi-supervised objective integrates labeled aswell as unlabeled data using the ELBO, leading to effective training of the generative and inference models.
 
 3. **Key Insights**:  
-   - It demonstrates how the unlabeled data can improve classifier performance by leveraging generative modeling.
-   - It Proposes scalable optimization techniques using stochastic gradient variational Bayes (SGVB).
+- It demonstrates how the unlabeled data can improve classifier performance by leveraging generative modeling.
+- It Proposes scalable optimization techniques using stochastic gradient variational Bayes (SGVB).
 
 
 
-  
-   For labeled data \((X, y) \sim D_L\), the ELBO is:
-   $$
-   \text{ELBO}_{D_L}(X, y) = \mathbb{E}_{q_\phi(z|X, y)} \left[ \log p_\theta(X|z, y) + \log p_\theta(y) + \log p_\theta(z) - \log q_\phi(z|X, y) \right]. \tag{1}
-   $$
+
+For labeled data \((X, y) \sim D_L\), the ELBO is:
+$$
+\text{ELBO}_{D_L}(X, y) = \mathbb{E}_{q_\phi(z|X, y)} \left[ \log p_\theta(X|z, y) + \log p_\theta(y) + \log p_\theta(z) - \log q_\phi(z|X, y) \right]. \tag{1}
+$$
 
 
-   For unlabeled data \(X \sim D_U\), \(y\) is treated as a latent variable:
-   $$
-   \text{ELBO}_{D_U}(X) = \mathbb{E}_{q_\phi(z, y|X)} \left[ \log p_\theta(X|z, y) + \log p_\theta(y) + \log p_\theta(z) - \log q_\phi(z|X, y) \right]. \tag{2}
-   $$
+For unlabeled data \(X \sim D_U\), \(y\) is treated as a latent variable:
+$$
+\text{ELBO}_{D_U}(X) = \mathbb{E}_{q_\phi(z, y|X)} \left[ \log p_\theta(X|z, y) + \log p_\theta(y) + \log p_\theta(z) - \log q_\phi(z|X, y) \right]. \tag{2}
+$$
 
-   Using the factorization \(q_\phi(z, y|X) = q_\phi(y|X) q_\phi(z|X, y)\), this becomes:
-   $$
-   \text{ELBO}_{D_U}(X) = \mathbb{E}_{q_\phi(y|X)}[-L(X, y)] + H(q_\phi(y|X)). \tag{3}
-   $$
+Using the factorization \(q_\phi(z, y|X) = q_\phi(y|X) q_\phi(z|X, y)\), this becomes:
+$$
+\text{ELBO}_{D_U}(X) = \mathbb{E}_{q_\phi(y|X)}[-L(X, y)] + H(q_\phi(y|X)). \tag{3}
+$$
 
 3. **Unified Objective**:  
-   Combining the labeled and  unlabeled objectives, the total loss is:
-   $$
-   J = \sum_{(X, y) \sim D_L} \text{ELBO}_{D_L}(X, y) + \sum_{X \sim D_U} \text{ELBO}_{D_U}(X). \tag{4}
-   $$
+Combining the labeled and  unlabeled objectives, the total loss is:
+$$
+J = \sum_{(X, y) \sim D_L} \text{ELBO}_{D_L}(X, y) + \sum_{X \sim D_U} \text{ELBO}_{D_U}(X). \tag{4}
+$$
 
 ---
 
 ### **Strengths**
 
 - **Principled Framework**:  
- This  Provides a clear probabilistic basis for integrating labeled and unlabeled data.
-  
+This  Provides a clear probabilistic basis for integrating labeled and unlabeled data.
+
 - **Scalability**:  
-  improves Scalabile optimization using SGVB ensures scalability to large datasets.
-  
+improves Scalabile optimization using SGVB ensures scalability to large datasets.
+
 - **Generative Component**:  
-  The representation learning is improved by the  generative modeling and leverages unlabeled data effectively.
+The representation learning is improved by the  generative modeling and leverages unlabeled data effectively.
 
 ---
 
 ### **Weaknesses**
 
 - **Entropy Management**:  
-  This does not not  address key issues like increasing classifier entropy in unlabeled ELBO.
-  
+This does not not  address key issues like increasing classifier entropy in unlabeled ELBO.
+
 - **Limited Classifier Training**:  
-  The labeled ELBO does not optimize the classifier \(q_\phi(y|X)\) directly, leading to potential inference inefficiencies.
+The labeled ELBO does not optimize the classifier \(q_\phi(y|X)\) directly, leading to potential inference inefficiencies.
 
 - **Simple Architectures**:  
-  The architectures may not generalize well   to more complex datasets like CIFAR-10 as it  uses MLPs with one or two hidden layers.
+The architectures may not generalize well   to more complex datasets like CIFAR-10 as it  uses MLPs with one or two hidden layers.
 
 
 #### **Paper 2: ELBO Surgery: Yet Another Way to Carve Up the Variational Evidence Lower Bound**  
@@ -91,59 +91,59 @@ This paper gives a detailed decomposition of the Evidence Lower Bound (ELBO), pr
 ### **Key Contributions**
 
 1. **ELBO Decomposition**:  
-   The ELBO iscan be broken into three terms to better understand its behavior:
-   - **Reconstruction Term**: Measures how well the generative model is able to reconstructs the data.
-   - **Prior Regularization**: It Penalizes the divergence metric between the posterior and the prior.
-   - **Entropy Term**: Captures the level of uncertainty in the approximate posterior.
+The ELBO iscan be broken into three terms to better understand its behavior:
+- **Reconstruction Term**: Measures how well the generative model is able to reconstructs the data.
+- **Prior Regularization**: It Penalizes the divergence metric between the posterior and the prior.
+- **Entropy Term**: Captures the level of uncertainty in the approximate posterior.
 
 2. **The Good ELBO, Bad Inference Problem**:  
-   It identifies a critical issue: the classifier \( q_\phi(y|X) \) doesnot not explicitly use in the labeled data for optimization labeled ELBO , resulting in poor inference despite a well-optimized ELBO.
+It identifies a critical issue: the classifier \( q_\phi(y|X) \) doesnot not explicitly use in the labeled data for optimization labeled ELBO , resulting in poor inference despite a well-optimized ELBO.
 
 3. **Proposed Adjustments**:  
-   A new term is introduced to explicitly optimize \( q_\phi(y|X) \), ensuring the labeled ELBO incorporates classification performance directly.
+A new term is introduced to explicitly optimize \( q_\phi(y|X) \), ensuring the labeled ELBO incorporates classification performance directly.
 
 
-   The ELBO for unlabeled data \(X \sim D_U\) is given by:
-   $$
-   \text{ELBO}_{D_U}(X) = \mathbb{E}_{q_\phi(z, y|X)}[\log p_\theta(X|z, y)] - D_{\text{KL}}(q_\phi(z|X) \| p(z)) - D_{\text{KL}}(q_\phi(y|X) \| p(y)).
- 
-   For labeled data \((X, y) \sim D_L\), the ELBO is:
-   $$
-   \text{ELBO}_{D_L}(X, y) = \mathbb{E}_{q_\phi(z|X, y)}[\log p_\theta(X|z, y)] - D_{\text{KL}}(q_\phi(z|X, y) \| p(z)) + \log p(y).
-   $$
+The ELBO for unlabeled data \(X \sim D_U\) is given by:
+$$
+\text{ELBO}_{D_U}(X) = \mathbb{E}_{q_\phi(z, y|X)}[\log p_\theta(X|z, y)] - D_{\text{KL}}(q_\phi(z|X) \| p(z)) - D_{\text{KL}}(q_\phi(y|X) \| p(y)).
+
+For labeled data \((X, y) \sim D_L\), the ELBO is:
+$$
+\text{ELBO}_{D_L}(X, y) = \mathbb{E}_{q_\phi(z|X, y)}[\log p_\theta(X|z, y)] - D_{\text{KL}}(q_\phi(z|X, y) \| p(z)) + \log p(y).
+$$
 
 **Good ELBO, Bad Inference Issue**:  
-   Using independence assumption \( q_\phi(z|X, y) = q_\phi(z|X) \), the labeled ELBO becomes:
-   $$
-   \text{ELBO}_{D_L}(X, y) = \mathbb{E}_{q_\phi(z|X)}[\log p_\theta(X|z, y)] - D_{\text{KL}}(q_\phi(z|X) \| p(z)) - D_{\text{KL}}(\hat{p}(y|X) \| p(y)).
-   $$
-   The term \( D_{\text{KL}}(\hat{p}(y|X) \| p(y)) \) is independent of the classifier \( q_\phi(y|X) \), making it ineffective for inference optimization.
- **Proposed Adjustment**:  
-   To directly optimize \( q_\phi(y|X) \), the paper introduces a new term:
-   $$
-   \text{Modified ELBO}_{D_L}(X, y) = \text{ELBO}_{D_L}(X, y) - \alpha D_{\text{KL}}(\hat{p}(y|X) \| q_\phi(y|X)),
-   $$
-   where \(\alpha\) is  hyperparameter controlling the importance of classification loss.
+Using independence assumption \( q_\phi(z|X, y) = q_\phi(z|X) \), the labeled ELBO becomes:
+$$
+\text{ELBO}_{D_L}(X, y) = \mathbb{E}_{q_\phi(z|X)}[\log p_\theta(X|z, y)] - D_{\text{KL}}(q_\phi(z|X) \| p(z)) - D_{\text{KL}}(\hat{p}(y|X) \| p(y)).
+$$
+The term \( D_{\text{KL}}(\hat{p}(y|X) \| p(y)) \) is independent of the classifier \( q_\phi(y|X) \), making it ineffective for inference optimization.
+**Proposed Adjustment**:  
+To directly optimize \( q_\phi(y|X) \), the paper introduces a new term:
+$$
+\text{Modified ELBO}_{D_L}(X, y) = \text{ELBO}_{D_L}(X, y) - \alpha D_{\text{KL}}(\hat{p}(y|X) \| q_\phi(y|X)),
+$$
+where \(\alpha\) is  hyperparameter controlling the importance of classification loss.
 
 ---
 
 ### **Strengths**
 
 - **Clear Diagnostic Framework**:  
-  The decomposition of the ELBO enables a systematic analysis of its limitations.
-  
+The decomposition of the ELBO enables a systematic analysis of its limitations.
+
 - **Direct Optimizations**:  
-  By explicitly incorporating classification loss, the proposed method addresses the inference bottleneck effectively.
+By explicitly incorporating classification loss, the proposed method addresses the inference bottleneck effectively.
 
 ---
 
 ### **Weaknesses**
 
 - **Limited Empirical Validation**:  
-  The paper primarily focuses on theoretical improvements wit doesnot focus on extensive experimental results.
+The paper primarily focuses on theoretical improvements wit doesnot focus on extensive experimental results.
 
 - **Not Generalizable**:  
-  The adjustment does not directly address entropy-related issues or mutual information in unlabeled setting  While useful for labeled data.
+The adjustment does not directly address entropy-related issues or mutual information in unlabeled setting  While useful for labeled data.
 
 
 
@@ -161,43 +161,43 @@ This paper  proposes a re-evaluation of assumptions underlying traditional appro
 ### **Key Contributions**
 
 1. **Analysis of M2's Limitations**:
-   - It identifies key issues in M2's formulation, particularly in how labeled and unlabeled ELBOs are combined.
-   - It dicovers the misalignment between the generative and discriminative objectives in traditional semi-supervised approches using VAEs.
+- It identifies key issues in M2's formulation, particularly in how labeled and unlabeled ELBOs are combined.
+- It dicovers the misalignment between the generative and discriminative objectives in traditional semi-supervised approches using VAEs.
 
 2. **Alternative Objectives**:
-   - It Proposes new formulations to better integrate labeled and unlabeled data in a unified framework.
-   - I gives mechanisms to address classifier entropy  address issue of mutual information between latent representations and labels.
+- It Proposes new formulations to better integrate labeled and unlabeled data in a unified framework.
+- I gives mechanisms to address classifier entropy  address issue of mutual information between latent representations and labels.
 
 3. **Insights into Regularization**:
-   - Discusses the role of regularization in semi-supervised learning and provides theoretical insights into its impact on representation learning.
+- Discusses the role of regularization in semi-supervised learning and provides theoretical insights into its impact on representation learning.
 
-   The ELBO for labeled data case is derived as:
-   $$
-   \text{ELBO}_{D_L}(X, y) = \mathbb{E}_{q_\phi(z|X, y)}[\log p_\theta(X|z, y)] 
-   - D_{\text{KL}}(q_\phi(z|X, y) \| p(z)) + \log p_\theta(y). \tag{1}
-   $$
+The ELBO for labeled data case is derived as:
+$$
+\text{ELBO}_{D_L}(X, y) = \mathbb{E}_{q_\phi(z|X, y)}[\log p_\theta(X|z, y)] 
+- D_{\text{KL}}(q_\phi(z|X, y) \| p(z)) + \log p_\theta(y). \tag{1}
+$$
 
-   For unlabeled data:
-   $$
-   \text{ELBO}_{D_U}(X) = \mathbb{E}_{q_\phi(z, y|X)}[\log p_\theta(X|z, y)] 
-   - D_{\text{KL}}(q_\phi(z|X) \| p(z)) - D_{\text{KL}}(q_\phi(y|X) \| p(y)). \tag{2}
-   $$
+For unlabeled data:
+$$
+\text{ELBO}_{D_U}(X) = \mathbb{E}_{q_\phi(z, y|X)}[\log p_\theta(X|z, y)] 
+- D_{\text{KL}}(q_\phi(z|X) \| p(z)) - D_{\text{KL}}(q_\phi(y|X) \| p(y)). \tag{2}
+$$
 
-   Highlights the mutual information term \( I_\phi(y; X) \) and its importance in balancing the unlabeled ELBO:
-   $$
-   \mathbb{E}_{q(X)} \left[ D_{\text{KL}}(q_\phi(y|X) \| p(y)) \right] \geq I_\phi(y; X). \tag{3}
-   $$
+Highlights the mutual information term \( I_\phi(y; X) \) and its importance in balancing the unlabeled ELBO:
+$$
+\mathbb{E}_{q(X)} \left[ D_{\text{KL}}(q_\phi(y|X) \| p(y)) \right] \geq I_\phi(y; X). \tag{3}
+$$
 
-   Entropy \( H(q_\phi(y|X)) \) is also identified as a critical term influencing classification performance:
-   $$
-   H(q_\phi(y|X)) = -\mathbb{E}_{q_\phi(y|X)}[\log q_\phi(y|X)]. \tag{4}
-   $$
+Entropy \( H(q_\phi(y|X)) \) is also identified as a critical term influencing classification performance:
+$$
+H(q_\phi(y|X)) = -\mathbb{E}_{q_\phi(y|X)}[\log q_\phi(y|X)]. \tag{4}
+$$
 
 3. **Unified Objective**:
-   Proposes an updated objective function incorporating mutual information and entropy terms:
-   $$
-   J = \sum_{(X, y) \sim D_L} \text{ELBO}_{D_L}(X, y) + \sum_{X \sim D_U} \left[ \text{ELBO}_{D_U}(X) + \gamma I_\phi(y; X) - \beta H(q_\phi(y|X)) \right]. \tag{5}
-   $$
+Proposes an updated objective function incorporating mutual information and entropy terms:
+$$
+J = \sum_{(X, y) \sim D_L} \text{ELBO}_{D_L}(X, y) + \sum_{X \sim D_U} \left[ \text{ELBO}_{D_U}(X) + \gamma I_\phi(y; X) - \beta H(q_\phi(y|X)) \right]. \tag{5}
+$$
 
 
 
@@ -241,75 +241,75 @@ This paper critically examines semi-supervised learning in Variational Autoencod
 ### **Key Contributions**
 
 1. **Analysis of M2's Limitations**:
-   - Highlights key issues in M2's formulation, particularly in how labeled and unlabeled ELBOs are combined.
-   - Identifies the misalignment between the generative and discriminative objectives in traditional semi-supervised VAEs.
+- Highlights key issues in M2's formulation, particularly in how labeled and unlabeled ELBOs are combined.
+- Identifies the misalignment between the generative and discriminative objectives in traditional semi-supervised VAEs.
 
 2. **Alternative Objectives**:
-   - Proposes novel formulations to better integrate labeled and unlabeled data in a unified framework.
-   - Introduces mechanisms to address classifier entropy and improve mutual information between latent representations and labels.
+- Proposes novel formulations to better integrate labeled and unlabeled data in a unified framework.
+- Introduces mechanisms to address classifier entropy and improve mutual information between latent representations and labels.
 
 3. **Insights into Regularization**:
-   - Discusses the role of regularization in semi-supervised learning and provides theoretical insights into its impact on representation learning.
+- Discusses the role of regularization in semi-supervised learning and provides theoretical insights into its impact on representation learning.
 
 ---
 
 ### **Key Equations and Derivations**
 
 1. **Revisiting the ELBO**:
-   The ELBO for labeled data is derived as:
-   $$
-   \text{ELBO}_{D_L}(X, y) = \mathbb{E}_{q_\phi(z|X, y)}[\log p_\theta(X|z, y)] 
-   - D_{\text{KL}}(q_\phi(z|X, y) \| p(z)) + \log p_\theta(y). \tag{1}
-   $$
+The ELBO for labeled data is derived as:
+$$
+\text{ELBO}_{D_L}(X, y) = \mathbb{E}_{q_\phi(z|X, y)}[\log p_\theta(X|z, y)] 
+- D_{\text{KL}}(q_\phi(z|X, y) \| p(z)) + \log p_\theta(y). \tag{1}
+$$
 
-   For unlabeled data:
-   $$
-   \text{ELBO}_{D_U}(X) = \mathbb{E}_{q_\phi(z, y|X)}[\log p_\theta(X|z, y)] 
-   - D_{\text{KL}}(q_\phi(z|X) \| p(z)) - D_{\text{KL}}(q_\phi(y|X) \| p(y)). \tag{2}
-   $$
+For unlabeled data:
+$$
+\text{ELBO}_{D_U}(X) = \mathbb{E}_{q_\phi(z, y|X)}[\log p_\theta(X|z, y)] 
+- D_{\text{KL}}(q_\phi(z|X) \| p(z)) - D_{\text{KL}}(q_\phi(y|X) \| p(y)). \tag{2}
+$$
 
 2. **Mutual Information and Entropy Regularization**:
-   Highlights the mutual information term \( I_\phi(y; X) \) and its importance in balancing the unlabeled ELBO:
-   $$
-   \mathbb{E}_{q(X)} \left[ D_{\text{KL}}(q_\phi(y|X) \| p(y)) \right] \geq I_\phi(y; X). \tag{3}
-   $$
+Highlights the mutual information term \( I_\phi(y; X) \) and its importance in balancing the unlabeled ELBO:
+$$
+\mathbb{E}_{q(X)} \left[ D_{\text{KL}}(q_\phi(y|X) \| p(y)) \right] \geq I_\phi(y; X). \tag{3}
+$$
 
-   Entropy \( H(q_\phi(y|X)) \) is also identified as a critical term influencing classification performance:
-   $$
-   H(q_\phi(y|X)) = -\mathbb{E}_{q_\phi(y|X)}[\log q_\phi(y|X)]. \tag{4}
-   $$
+Entropy \( H(q_\phi(y|X)) \) is also identified as a critical term influencing classification performance:
+$$
+H(q_\phi(y|X)) = -\mathbb{E}_{q_\phi(y|X)}[\log q_\phi(y|X)]. \tag{4}
+$$
 
 3. **Unified Objective**:
-   Proposes an updated objective function incorporating mutual information and entropy terms:
-   $$
-   J = \sum_{(X, y) \sim D_L} \text{ELBO}_{D_L}(X, y) + \sum_{X \sim D_U} \left[ \text{ELBO}_{D_U}(X) + \gamma I_\phi(y; X) - \beta H(q_\phi(y|X)) \right]. \tag{5}
-   $$
+Proposes an updated objective function incorporating mutual information and entropy terms:
+$$
+J = \sum_{(X, y) \sim D_L} \text{ELBO}_{D_L}(X, y) + \sum_{X \sim D_U} \left[ \text{ELBO}_{D_U}(X) + \gamma I_\phi(y; X) - \beta H(q_\phi(y|X)) \right]. \tag{5}
+$$
 
 ---
 
 ### **Strengths**
 
 - **Rigorous Analysis**:  
-  Provides a detailed theoretical critique of existing semi-supervised learning frameworks in VAEs.
+Provides a detailed theoretical critique of existing semi-supervised learning frameworks in VAEs.
 
 - **Improved Objectives**:  
-  Proposes alternatives that address key issues like classifier entropy and mutual information loss.
+Proposes alternatives that address key issues like classifier entropy and mutual information loss.
 
 - **Theoretical and Empirical Validation**:  
-  Offers strong empirical evidence supporting the effectiveness of the proposed methods.
+Offers strong empirical evidence supporting the effectiveness of the proposed methods.
 
 ---
 
 ### **Weaknesses**
 
 - **Computational Complexity**:  
-  The inclusion of mutual information and entropy terms increases computational overhead.
+The inclusion of mutual information and entropy terms increases computational overhead.
 
 - **Dependency on Hyperparameters**:  
-  The performance heavily relies on carefully tuned values for \(\beta\) and \(\gamma\), which may not generalize well across datasets.
+The performance heavily relies on carefully tuned values for \(\beta\) and \(\gamma\), which may not generalize well across datasets.
 
 - **Lack of Scalability**:  
-  While improvements are demonstrated, the framework's scalability to high-dimensional datasets like CIFAR-10 is not fully addressed.
+While improvements are demonstrated, the framework's scalability to high-dimensional datasets like CIFAR-10 is not fully addressed.
 
 
 
@@ -338,18 +338,18 @@ This process ensures that the latent variable $z$ captures the underlying struct
 
 The inference process defines the posterior distributions:
 1. **Posterior of $z$:**
-   $$
-   \boldsymbol{q_\phi(z|X) = \mathcal{N}(z; \mu_\phi(X), \sigma_\phi^2(X)).}  \tag{2}
-   $$
-   where:
-   - $\mu_\phi(X)$ and $\sigma_\phi^2(X)$ are nural networks representing the mean and variance of $z$.
+$$
+\boldsymbol{q_\phi(z|X) = \mathcal{N}(z; \mu_\phi(X), \sigma_\phi^2(X)).}  \tag{2}
+$$
+where:
+- $\mu_\phi(X)$ and $\sigma_\phi^2(X)$ are nural networks representing the mean and variance of $z$.
 
 2. **Posterior of $y$:**
-   $$
-   \boldsymbol{q_\phi(y|X) = \text{Cat}(y; \pi_\phi(X)).}  \tag{3}
-   $$
-   where:
-   - $\pi_\phi(X)$ is another neural network predicting the categorical probabilities of $y$.
+$$
+\boldsymbol{q_\phi(y|X) = \text{Cat}(y; \pi_\phi(X)).}  \tag{3}
+$$
+where:
+- $\pi_\phi(X)$ is another neural network predicting the categorical probabilities of $y$.
 
 To enforce disentanglement, we make use of the conditional indipendence assumption:
 $$
@@ -435,19 +435,19 @@ $$
 This has three main parts:-
 
 1. **Unlabeled Data ($D_U$):**
-   - The ELBO term for unlabeled data maximizes the reconstruction of $X$ while regularizing the posteriors $q_\phi(z|X)$ and $q_\phi(y|X)$ to align with their respective priors in bothe continous and discrete space.
+- The ELBO term for unlabeled data maximizes the reconstruction of $X$ while regularizing the posteriors $q_\phi(z|X)$ and $q_\phi(y|X)$ to align with their respective priors in bothe continous and discrete space.
 2. **Labeled Data ($D_L$):**
-   - The ELBO term for labeled data strives to maximize the reconstruction of $X$ given $y$ and regularizes the posterior $q_\phi(z|X, y)$ to align with the prior $p(z)$.
+- The ELBO term for labeled data strives to maximize the reconstruction of $X$ given $y$ and regularizes the posterior $q_\phi(z|X, y)$ to align with the prior $p(z)$.
 3. **Cross-Entropy Loss:**
-   -  This term ensures that $q_\phi(y|X)$ is explicitly trained as a classifier using labeled data.
+-  This term ensures that $q_\phi(y|X)$ is explicitly trained as a classifier using labeled data.
 
 
 
 ## **Implementation Details**
 
- This optimization is done  using **Stochastic Gradient Variational Bayes (SGVB)**, which combines deterministic reparameterization and Monte Carlo approximation for estimation of the gradient . Below are the key steps:
+This optimization is done  using **Stochastic Gradient Variational Bayes (SGVB)**, which combines deterministic reparameterization and Monte Carlo approximation for estimation of the gradient . Below are the key steps:
 
- ### **Reparameterization and Sampling**
+### **Reparameterization and Sampling**
 
 #### **Latent Variable $z$ (Continuous):**
 To sample $z$, the reparameterization trick is applied:
@@ -512,12 +512,12 @@ The  chain rule can be used to compute the gradients of the loss function (Equat
 The training process involves stochastic gradient-based optimization. During each iteration:
 1. Gradients for $\theta$ and $\phi$ are computed using backpropagation.
 2. Parameters are updated using the Adam optimizer:
-   $$
-   (\theta_{t+1}, \phi_{t+1}) = (\theta_t, \phi_t) - \eta \cdot \nabla_{\{\theta, \phi\}} \mathcal{L}_\alpha,
-   $$
-   where:
-   - $\eta$ is the learning rate at step $t$, adapted by Adam.
-   - $\mathcal{L}_\alpha$ is the combined loss function for labeled and unlabeled data (Equation 9).
+$$
+(\theta_{t+1}, \phi_{t+1}) = (\theta_t, \phi_t) - \eta \cdot \nabla_{\{\theta, \phi\}} \mathcal{L}_\alpha,
+$$
+where:
+- $\eta$ is the learning rate at step $t$, adapted by Adam.
+- $\mathcal{L}_\alpha$ is the combined loss function for labeled and unlabeled data (Equation 9).
 
 
 ### **Architecture :-**
@@ -579,9 +579,9 @@ Below, I detail each issue and discuss their theoretical foundations, and presen
 
 #### **1. Increasing Entropy of the classifier $H(q_\phi(y|x))$**
 
-  
-  From the equation (5) we know that ELBO term for Unlabeled dataset is:-
- 
+
+From the equation (5) we know that ELBO term for Unlabeled dataset is:-
+
 $$
 \log p_\theta(x) \geq \boldsymbol{\text{ELBO}_{D_U}(X) = \mathbb{E}_{q_\phi(z, y|X)}[\log p_\theta(X|z, y)] 
 - D_{\text{KL}}(q_\phi(z|X) \| p(z)) 
@@ -723,18 +723,18 @@ I_\phi(y; x) = H(q_\phi(y)) - \mathbb{E}_{q(x)}[H(q_\phi(y|x))].
 $$
 
 1. **Entropy of the Aggrigated Posterior $q_\phi(y)$**:
-   $$ 
-   H(q_\phi(y)) = -\sum_y q_\phi(y) \log q_\phi(y),
-   $$
-   where $q_\phi(y)$ is computed as:
-   $$ 
-   q_\phi(y) = \mathbb{E}_{q(x)}[q_\phi(y|x)].
-   $$
+$$ 
+H(q_\phi(y)) = -\sum_y q_\phi(y) \log q_\phi(y),
+$$
+where $q_\phi(y)$ is computed as:
+$$ 
+q_\phi(y) = \mathbb{E}_{q(x)}[q_\phi(y|x)].
+$$
 
 2. **Average Conditional Entropy of $q_\phi(y|x)$**:
-   $$ 
-   \mathbb{E}_{q(x)}[H(q_\phi(y|x))] = \mathbb{E}_{q(x)} \left[ -\sum_y q_\phi(y|x) \log q_\phi(y|x) \right].
-   $$
+$$ 
+\mathbb{E}_{q(x)}[H(q_\phi(y|x))] = \mathbb{E}_{q(x)} \left[ -\sum_y q_\phi(y|x) \log q_\phi(y|x) \right].
+$$
 
 The above terms can be computed efficiently using Monte Carlo sampling.
 
@@ -774,24 +774,24 @@ The term $D_{\text{KL}}(\hat{p}(y|X) \| p(y))$ is independent of $q_\phi(y|X)$. 
 
 To address the issue, **Optimized-ELBO** introduces:
 1. **Label Smoothing**: Use smoothed labels, Instead of treating $\hat{p}(y|X)$ as a degenerate distribution:
-   $$
-   \hat{p}(y|X) = \text{Cat}(y | \text{smooth}(1_y)),
-   $$
-   where:
-   $$
-   \text{smooth}(1_y)_i =
-   \begin{cases} 
-   1 - \epsilon & \text{if } 1_y,i = 1, \\
-   \frac{\epsilon}{K-1} & \text{if } 1_y,i = 0,
-   \end{cases}
-   $$
-   and $K$ is the number of classes, $\epsilon$ controls the smootness level (e.g., $\epsilon = 0.001$).
+$$
+\hat{p}(y|X) = \text{Cat}(y | \text{smooth}(1_y)),
+$$
+where:
+$$
+\text{smooth}(1_y)_i =
+\begin{cases} 
+1 - \epsilon & \text{if } 1_y,i = 1, \\
+\frac{\epsilon}{K-1} & \text{if } 1_y,i = 0,
+\end{cases}
+$$
+and $K$ is the number of classes, $\epsilon$ controls the smootness level (e.g., $\epsilon = 0.001$).
 
 2. **Improved Objective**: This convergence property ensures better alignment between the classifier $q_\phi(y|X)$ and smoothed labels:
-   $$
-   D_{\text{KL}}(\hat{p}(y|X) \| q_\phi(y|X)) + D_{\text{KL}}(q_\phi(y|X) \| p(y)) \to D_{\text{KL}}(\hat{p}(y|X) \| p(y)),
-   $$
-   when $q_\phi(y|X) \to \hat{p}(y|X)$.
+$$
+D_{\text{KL}}(\hat{p}(y|X) \| q_\phi(y|X)) + D_{\text{KL}}(q_\phi(y|X) \| p(y)) \to D_{\text{KL}}(\hat{p}(y|X) \| p(y)),
+$$
+when $q_\phi(y|X) \to \hat{p}(y|X)$.
 when the infernce model approaches actual label distribution, it can be shown that the above approximatioon holds in the limit.
 ---
 
@@ -806,10 +806,10 @@ $$
 
 ### **Impact of Optimized-ELBO**
 1. **Direct Integration of Classification Loss**:  
-   Because of this $D_{\text{KL}}(\hat{p}(y|X) \| q_\phi(y|X))$ term, the classifier $q_\phi(y|X)$ is trained directly with label information.
-   
+Because of this $D_{\text{KL}}(\hat{p}(y|X) \| q_\phi(y|X))$ term, the classifier $q_\phi(y|X)$ is trained directly with label information.
+
 2. **Smoothed Labels for Stability**:  
-   By ensuring that $\hat{p}(y|X)$ is not degenerate, the label smoothing prevents overconfidence and improves generalization 
+By ensuring that $\hat{p}(y|X)$ is not degenerate, the label smoothing prevents overconfidence and improves generalization 
 
 ### **Unified Objective Function for Semi-Supervised Learning**
 
@@ -826,26 +826,26 @@ where:
 - $D_L$: Labeled dataset.
 - $D_U$: Unlabeled dataset.
 - $\text{Optimized-ELBO}_{D_L}(X, y)$: Optimized elbo for labeled data:
-  $$
-  \text{Optimized-ELBO}_{D_L}(X, y) = \mathbb{E}_{q_\phi(z|X), \hat{p}(y|X)} \left[ \log p(X|z, y) \right] - D_{\text{KL}}(q_\phi(z|X) \| p(z)) - D_{\text{KL}}(q_\phi(y|X) \| p(y)) - D_{\text{KL}}(\hat{p}(y|X) \| q_\phi(y|X)).
-  $$
-  This formulation integrates label smoothing and directly trains the classifier with smoothed labels.
+$$
+\text{Optimized-ELBO}_{D_L}(X, y) = \mathbb{E}_{q_\phi(z|X), \hat{p}(y|X)} \left[ \log p(X|z, y) \right] - D_{\text{KL}}(q_\phi(z|X) \| p(z)) - D_{\text{KL}}(q_\phi(y|X) \| p(y)) - D_{\text{KL}}(\hat{p}(y|X) \| q_\phi(y|X)).
+$$
+This formulation integrates label smoothing and directly trains the classifier with smoothed labels.
 
 - $M(X)$: Regularized unlabeled ELBO incorporating entropy penalty and mutual information maximization:
-  $$
-  M(X) = U(X) + \gamma I_\phi(y; X) - \beta H(q_\phi(y|X)),
-  $$
-  where:
-  - $U(X)$: Unlabeled ELBO:
-    $$
-    U(X) = \mathbb{E}_{q_\phi(y|X)} \left[ L(X, y) \right] + H(q_\phi(y|X)),
-    $$
-    and $L(X, y)$ is the labeled ELBO.
-  - $I_\phi(y; X)$: Mutual information between $X$ and $y$:
-    $$
-    I_\phi(y; X) = H(q_\phi(y)) - \mathbb{E}_{X \sim q(X)}[H(q_\phi(y|X))].
-    $$
-  - $H(q_\phi(y|X))$: Entropy of the classifier.
+$$
+M(X) = U(X) + \gamma I_\phi(y; X) - \beta H(q_\phi(y|X)),
+$$
+where:
+- $U(X)$: Unlabeled ELBO:
+$$
+U(X) = \mathbb{E}_{q_\phi(y|X)} \left[ L(X, y) \right] + H(q_\phi(y|X)),
+$$
+and $L(X, y)$ is the labeled ELBO.
+- $I_\phi(y; X)$: Mutual information between $X$ and $y$:
+$$
+I_\phi(y; X) = H(q_\phi(y)) - \mathbb{E}_{X \sim q(X)}[H(q_\phi(y|X))].
+$$
+- $H(q_\phi(y|X))$: Entropy of the classifier.
 
 - $\alpha$: Weight for the supervised classification loss $-\log q_\phi(y|X)$.
 
@@ -937,8 +937,8 @@ While the paper used specific hyperparameters for M2, I have introduces  my own 
 #### **1. Increasing Entropy of Classifier $H(q_\phi(y|X))$**
 - **Issue**: The entropy of the classifier increases with the number of epochs in the original M2 model, violating the **cluster assumption**. This misalignment leads to decision boundaries passing through high-density regions, which degrades classification performance.
 - **Experiment**:
-  - Plotted the entropy $H(q_\phi(y|X))$ against the number of epochs for both the original M2 model and the Optimized-ELBO.
-  - Observed that while the M2 model's entropy increased over time, the Optimized-ELBO effectively reduced entropy, aligning with the cluster assumption.
+- Plotted the entropy $H(q_\phi(y|X))$ against the number of epochs for both the original M2 model and the Optimized-ELBO.
+- Observed that while the M2 model's entropy increased over time, the Optimized-ELBO effectively reduced entropy, aligning with the cluster assumption.
 <img src="images/entropy_m2.png" alt="Entropy M2" width="700">
 <img src="images/Entropy_Optimized_elbo.png" alt="Entropy_Optimized_elbo" width="700">
 
@@ -951,8 +951,8 @@ While the paper used specific hyperparameters for M2, I have introduces  my own 
 #### **2.  ELBO for Labebled datet not learning from Labeled Data**
 - **Issue**: The original labeled ELBO in the M2 model fails to utilize label information effectively as seen in the equation (6) , experimental results also proves that leading to suboptimal classifier performance.
 - **Experiment**:
-  - Compared the learning curves of the  M2 model  and  the Optimized-Labeled ELBO (without the crossentropy loss in both the cases) over 30 epochs.
-  - Results showed that the Optimized-Labeled ELBO consistently leveraged labeled data more effectively, enhancing classifier performance.
+- Compared the learning curves of the  M2 model  and  the Optimized-Labeled ELBO (without the crossentropy loss in both the cases) over 30 epochs.
+- Results showed that the Optimized-Labeled ELBO consistently leveraged labeled data more effectively, enhancing classifier performance.
 <img src="images/val_acc_without_CE.png" alt="val_acc_without_CE" width="700">
 
 **Observation**:
@@ -965,18 +965,18 @@ While the paper used specific hyperparameters for M2, I have introduces  my own 
 
 ### **Conclusions**
 1. **Performance Improvements**: 
-   - The Optimized-ELBO loss function demonstrated accuracy improvements on MNIST and modest gains on CIFAR-10.
-   - These improvements can be attributed to reduction in classifier entropy, better decision boundary alignment, and enhanced utilization of labeled data.
+- The Optimized-ELBO loss function demonstrated accuracy improvements on MNIST and modest gains on CIFAR-10.
+- These improvements can be attributed to reduction in classifier entropy, better decision boundary alignment, and enhanced utilization of labeled data.
 
 2. **Entropy Reduction**: 
-   - The proposed method successfully reduced the entropy of the classifier, leading to improved classification performance by ensuring decision boundaries align with low-density regions.
+- The proposed method successfully reduced the entropy of the classifier, leading to improved classification performance by ensuring decision boundaries align with low-density regions.
 
 3. **Labeled Data Utilization**: 
-   - The Optimized-Labeled ELBO utilizes learning from labeled data compared to the original M2 model which could not do it directly from the labeled elbo.
+- The Optimized-Labeled ELBO utilizes learning from labeled data compared to the original M2 model which could not do it directly from the labeled elbo.
 
 4. **Future Work**:
-   - For CIFAR-10, employing a deeper CNN architecture and advanced data augmentation could further enhance performance.
-   - Exploring additional regularization techniques and alternative priors may offer further insights into optimizing semi-supervised learning. 
+- For CIFAR-10, employing a deeper CNN architecture and advanced data augmentation could further enhance performance.
+- Exploring additional regularization techniques and alternative priors may offer further insights into optimizing semi-supervised learning. 
 
 The results validate the efficacy of the proposed modifications, reinforcing their potential to improve semi-supervised learning frameworks in diverse datasets.
 
@@ -985,13 +985,11 @@ The results validate the proposed modifications and highlight their potential fo
 
 
 **References**  
+Used Chat-GPT to structure equation and to plot tables.
 [1] Olivier Chapelle, Bernhard Scholkopf, and Alexander Zien. Semi-supervised learning (Chapelle, O. et al., eds.; 2006) [book reviews]. *IEEE Transactions on Neural Networks*, 20(3):542–542, 2009.
-
 [2] Matthew D Hoffman and Matthew J Johnson. Elbo surgery: yet another way to carve up the variational evidence lower bound. In *Workshop in Advances in Approximate Bayesian Inference, NIPS*, volume 1, page 2, 2016.  
 [3] Diederik P Kingma, Danilo J Rezende, Shakir Mohamed, and Max Welling. Semi-supervised learning with deep generative models. In *Proceedings of the 27th International Conference on Neural Information Processing Systems-Volume 2*, pages 3581–3589, 2014.  
 [4] Ali Lotfi Rezaabad and Sriram Vishwanath. Learning representations by maximizing mutual information in variational autoencoders. In *2020 IEEE International Symposium on Information Theory (ISIT)*, pages 2729–2734. IEEE, 2020.
-
-
- [5] Yves Grandvalet and Yoshua Bengio. *Semi-supervised learning by entropy minimization*. In *CAP*, pages 281–296, 2005.  
+[5] Yves Grandvalet and Yoshua Bengio. *Semi-supervised learning by entropy minimization*. In *CAP*, pages 281–296, 2005.  
 [6] Hanchen Xie et al. *MUSCLE: Strengthening Semi-Supervised Learning via Concurrent Unsupervised Learning Using Mutual Information Maximization*. In *2021 IEEE Winter Conference on Applications of Computer Vision (WACV)*, pages 2585–2594. IEEE, 2021.  
 [7] Müller et al. *When Does Label Smoothing Help?*. In *NeurIPS*, 2019.
