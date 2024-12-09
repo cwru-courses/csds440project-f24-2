@@ -67,7 +67,7 @@ This model did not perform better than a base logistic regression model. Compare
 - **Results for Method 3**:
 Below are the performances of method 3 on the "Australia" and "ionosphere" datasets, respectively (both are from the UCI ML repository). 
 
-![](smb318/comparison_plots/australia.png)
+![](smb318/comparison_plots/australia.png)  s
 
 ![](smb318/comparison_plots/ionosphere.png)
 
