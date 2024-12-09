@@ -239,5 +239,6 @@ The even though the perfomance is increased with number of epochs compared to me
 **futurewor** :- Check the different approaches stated in the survey also check the results in other datasets also. may be explore different augumentation techiniques which will work this this kind of specifi datasets. 
 
 
+**Note** all the equations are properly rendering in visual studion. please check on the visual studio.
 
 **Note** i have used the chatGPT to give me the markdown code for the euqations and tables .
