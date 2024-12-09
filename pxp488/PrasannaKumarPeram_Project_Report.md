@@ -246,4 +246,5 @@ The even though the perfomance is increased with number of epochs compared to me
 
 **Note** all the equations are properly rendering in visual studion. please check on the visual studio.
 
-**Note** i have used the chatGPT to give me the markdown code for the euqations and tables .
+**Note** i have used the chatGPT to give me the markdown code for the euqations and tables. 
+**Note** the  code is implimented in https://paperswithcode.com/paper/mean-teachers-are-better-role-models-weight
