@@ -72,6 +72,52 @@ Below are the performances of method 3 on the "Australia" and "ionosphere" datas
 
 As we can see from the plots above, modifiedTriTraining produces a higher error rate than the other methods, using a lower unlabel rate. 
 
+## **Results, Analysis, and Discussion for method 4**
+
+### **Experiments**
+
+#### **Dataset**
+The experiments were conducted on the following datasets:
+1. **MNIST**: 
+2. **CIFAR-10**
+#### **Methodology**
+- **Evaluation Metrics**: Classification accuracy, entropy, and mutual information were evaluated over 50 epochs.
+- **Hyperparameters**: Consistent settings were used across methods to ensure fair comparisons:
+  - Latent Dimension: 50
+  - Batch Size: 128
+  - Learning Rate: \(1e-3\)
+  - Optimizer: Adam
+  - Number of Epochs: 50
+- **Architectural Details**:  
+   The original M2 model's MLP architecture was replaced with a CNN-based encoder-decoder architecture for image datasets.
+
+---
+
+### **Results**
+
+#### **MNIST**
+- **Original M2 Model**: Achieved an accuracy of 95.3%.
+- **Optimized-ELBO**: Improved accuracy to 97.8%, representing a 2.5% gain.
+
+<img src="rxk789/images/mnist_results.png" alt="mnist_results" width="700">
+
+#### **CIFAR-10**
+- **Original M2 Model**: Achieved an accuracy of 40.2%.
+- **Optimized-ELBO**: Improved accuracy to 42.2%, representing a modest 2% gain.
+
+| **Dataset** | **Model**        | **Accuracy (%)** | **Improvement (%)** |
+|-------------|------------------|------------------|---------------------|
+| **MNIST**   | Original M2      | 95.3             | +0.0               |
+|             | Optimized-ELBO   | 97.8             | +2.5               |
+| **CIFAR-10**| Original M2      | 40.2             | +0.0               |
+|             | Optimized-ELBO   | 42.2             | +2.0               |
+
+---
+
 ### Analysis and Discussion
 
 The results of this experiment on the MNIST dataset are similar to the results provided in the initial paper, with slightly lower performance after the research extension of dynamic weights was applied. We mostly used the MNIST dataset for our comparisons. The MNIST dataset is an image dataset used for classifying handwritten numbers. Overall, our implementations give a broad coverage of the field of semi-supervised learning. Potentially, these methods could be combined in future research. For example, Sean's research on Tri-training would be complementary with Stephanie's research on view learning.
+
+ 
+
+
