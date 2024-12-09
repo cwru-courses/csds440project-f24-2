@@ -29,5 +29,7 @@ Zhou et al. evaluate tri-training using the error rate on the test sets. To ensu
 
 Below is a plot of the results for the Australia dataset.
 
+![](comparison_plots/australia.png)
+
 ## Bibliography
 
