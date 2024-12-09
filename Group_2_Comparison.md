@@ -64,8 +64,14 @@ Experiment: Analyzing the impact of varying unlabeled set sizes on model perform
 
 This model did not perform better than a base logistic regression model. Compared to the other methods, this was not as effective, with a noticeable lower loss when compared to Methods 1 and 2. This method was likely more simple compared to the other semi-supervised methods implemented and did not learn as much from the unlabeled data.
 
+- **Results for Method 3**:
+Below are the performances of method 3 on the "Australia" and "ionosphere" datasets, respectively (both are from the UCI ML repository). 
 
+![](smb318/comparison_plots/australia.png)
 
+![](smb318/comparison_plots/ionosphere.png)
+
+As we can see from the plots above, modifiedTriTraining produces a higher error rate than the other methods. However, 
 
 ### Analysis and Discussion
 

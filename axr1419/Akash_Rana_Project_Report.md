@@ -69,16 +69,19 @@ $$
 h(\mathbf{x}) = \text{sign}(\mathbf{w} \cdot \mathbf{x} + b),
 $$
 
-where \( $\mathbf{w} $\) is the weight vector and \( b \) is the bias term. The training sample ( $ S_{train}$ \) and test sample \( $ S_{test}$ \) are assumed to lie within a ball of diameter \( D \). The hypothesis space can then be reduced into a finite number of equivalence classes \( N_r \), bounded by:
+where \( $\mathbf{w} \$) is the weight vector and \($b $\) is the bias term. The training sample ( $S_{train} $\) and test sample \( $S_{test} $\) are assumed to lie within a ball of diameter \( D \). The hypothesis space can then be reduced into a finite number of equivalence classes \( N_r \), bounded by:
 
 $$
 N_r < \exp \left( d \left( \frac{n + k}{d + 1} \right) \right),
 $$
+
 where:
+
 $$
 d = \min \left( a, \left\lfloor \frac{D^2}{\gamma^2} \right\rfloor + 1 \right).
 $$
-Here, \( a \) is the dimensionality of the feature space, \($ \gamma $ \) represents the margin of separation, and \( $\lfloor \cdot \rfloor $ \) denotes the integer part. This formulation highlights that the VC-dimension \( d \) depends on geometric properties of the data and not necessarily on the feature space dimensionality.
+
+Here, \($a \$) is the dimensionality of the feature space, \($\gamma \$) represents the margin of separation, and \($\lfloor \cdot \rfloor \$) denotes the integer part. This formulation highlights that the VC-dimension \($d \$) depends on geometric properties of the data and not necessarily on the feature space dimensionality.
 
 By leveraging structural risk minimization, TSVM minimizes the test error bound:
 
@@ -86,7 +89,7 @@ $$
 R_{\text{test}}(h) \leq R_{\text{train}}(h) + \Delta(n, k, d, \epsilon),
 $$
 
-where  \( $\Delta(n, k, d, \epsilon) $\) is the confidence interval, dependent on training size \( n \), test size \( k \), VC-dimension \( d \), and confidence parameter \( \epsilon \)
+where  \( $\Delta(n, k, d, \epsilon) $\) is the confidence interval, dependent on training size \( $n $\), test size \($k $\), VC-dimension \( d \), and confidence parameter \( \epsilon \)
 
 #### Optimization Problems in TSVM
 
@@ -107,14 +110,14 @@ y_i (\mathbf{w} \cdot \mathbf{x}_i + b) \geq 1, \quad \forall \mathbf{x}_i \in S
 $$
 
 $$
-y_j (\mathbf{w} \cdot \mathbf{x}_j + b) \geq 1, \quad \forall \mathbf{x}_j \in S_{\text{test}}.
+\y_j (\mathbf{w} \cdot \mathbf{x}_j + b) \geq 1, \quad \forall \mathbf{x}_j \in S_{\text{test}}.
 $$
 
-In this formulation, \( $\mathbf{y} = \{y_1, y_2, \dots, y_k\} $\) represents the labels assigned to the test data. The goal is to determine the labeling of test data (\( $\mathbf{y} $\)) and the hyperplane \($ (\mathbf{w}, b) $\) that maximizes the margin between the classes.
+In this formulation, \( $\mathbf{y} = \{y_1, y_2, \dots, y_k\} \$) represents the labels assigned to the test data. The goal is to determine the labeling of test data (\( $\mathbf{y} \$)) and the hyperplane \(($\mathbf{w}, b) \$) that maximizes the margin between the classes.
 
 ##### Case 2: Non-Linearly Separable Data
 
-For non-linearly separable data, slack variables \($ \xi_i $\) and \($ \xi_j $\) are introduced to handle overlapping data points. The optimization problem (OP 2) is defined as:
+For non-linearly separable data, slack variables \($\xi_i \$) and \($\xi_j \$) are introduced to handle overlapping data points. The optimization problem (OP 2) is defined as:
 
 $$
 \min_{\mathbf{y}, \mathbf{w}, b, \xi} \quad \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^{n} \xi_i + C' \sum_{j=1}^{k} \xi_j
@@ -135,14 +138,14 @@ $$
 $$
 
 Here:
-- \( $ \xi_i $\) and \($ \xi_j $\) are slack variables for training and test data, respectively.
-- \($ C $ ) and \($ C' $\) are user-defined parameters that balance the trade-off between margin size and penalties for misclassification or exclusion of data points.
+- \( $\xi_i $\) and \($\xi_j \$) are slack variables for training and test data, respectively.
+- \($C $ ) and \($C' $\) are user-defined parameters that balance the trade-off between margin size and penalties for misclassification or exclusion of data points.
 
 This formulation ensures that TSVM can handle noisy datasets while maintaining the principles of margin maximization.
 
 #### Practical Implementation
 
-In the current implementation, the TSVM framework is extended by utilizing the margin-based optimization approach described above. The labeling of the test data is iteratively updated along with the optimization of the hyperplane parameters \($ (\mathbf{w}, b) $\). This approach ensures robust classification performance by minimizing test error while utilizing unlabeled data to refine the decision boundary.
+In the current implementation, the TSVM framework is extended by utilizing the margin-based optimization approach described above. The labeling of the test data is iteratively updated along with the optimization of the hyperplane parameters \( ($\mathbf{w}, b) $\). This approach ensures robust classification performance by minimizing test error while utilizing unlabeled data to refine the decision boundary.
 
 
 #### Algorithm for TSVM Training
@@ -160,18 +163,18 @@ In our research extension, we propose using a Multi-Layer Perceptron (MLP) as a 
 
 ### Mathematical Formulation
 
-Let \($ f_{\text{MLP}}(\mathbf{x}_i) $\) denote the output of the MLP for the input sample \($ \mathbf{x}_i $\). The MLP consists of multiple layers of neurons, each performing a non-linear transformation of the input. We can represent the MLP as follows:
+Let \($f_{\text{MLP}}(\mathbf{x}_i) \$) denote the output of the MLP for the input sample \($\mathbf{x}_i \$). The MLP consists of multiple layers of neurons, each performing a non-linear transformation of the input. We can represent the MLP as follows:
 
 $$
 f_{\text{MLP}}(\mathbf{x}_i) = \mathbf{W}_L \sigma(\mathbf{W}_{L-1} \sigma(\dots \sigma(\mathbf{W}_1 \mathbf{x}_i + \mathbf{b}_1) \dots) + \mathbf{b}_{L-1}) + \mathbf{b}_L
 $$
 
 Where:
-- \($ \mathbf{W}_l $\) and \($ \mathbf{b}_l $\) are the weights and biases at layer \($ l $\), respectively,
-- \($ \sigma(\cdot) $\) is an activation function (typically ReLU or tanh),
-- \( L \) is the total number of layers in the MLP.
+- \($\mathbf{W}_l \$) and \($ \mathbf{b}_l $\) are the weights and biases at layer \($l \$), respectively,
+- \($\sigma(\cdot) \$) is an activation function (typically ReLU or tanh),
+- \($ L \$) is the total number of layers in the MLP.
 
-Once the MLP transforms the input into a feature vector \($ \mathbf{z}_i = f_{\text{MLP}}(\mathbf{x}_i) $\), the output \($ \mathbf{z}_i $\) is passed to the TSVM for classification. The TSVM model is trained using the same objective function as described earlier, but now the feature vectors \($ \mathbf{z}_i $\) are used in place of the raw inputs \($ \mathbf{x}_i $\).
+Once the MLP transforms the input into a feature vector \($\mathbf{z}_i = f_{\text{MLP}}(\mathbf{x}_i) \$), the output \($\mathbf{z}_i \$) is passed to the TSVM for classification. The TSVM model is trained using the same objective function as described earlier, but now the feature vectors \($\mathbf{z}_i \$) are used in place of the raw inputs \($ \mathbf{x}_i \$).
 
 Thus, the optimization problem for TSVM becomes:
 
@@ -189,13 +192,13 @@ $$
 y_j (\mathbf{w} \cdot f_{\text{MLP}}(\mathbf{x}_j^*) + b) \geq 1 - \xi_j^* \quad \forall j = 1, \dots, k
 $$
 
-Where the transformed features \($ f_{\text{MLP}}(\mathbf{x}_i) $\) are now used in the TSVM classification instead of the raw input data.
+Where the transformed features \($f_{\text{MLP}}(\mathbf{x}_i) \$) are now used in the TSVM classification instead of the raw input data.
 
 ### Explanation
 
 In our research extension, we use a Multi-Layer Perceptron (MLP) as a feature extractor prior to passing the input to the Transductive Support Vector Machine (TSVM). This method leverages the ability of deep learning to map raw input features into a higher-dimensional feature space, which can be more suitable for classification tasks.
 
-The MLP is trained to learn a non-linear transformation of the input data \($ \mathbf{x}_i $\), generating a feature vector \($ f_{\text{MLP}}(\mathbf{x}_i) $\). These transformed feature vectors are then passed to the TSVM, which performs the classification task based on the MLP's output. The TSVM works in this new feature space, allowing it to better classify data that may not be linearly separable in the original input space.
+The MLP is trained to learn a non-linear transformation of the input data \($\mathbf{x}_i \$) , generating a feature vector \(f_{\text{MLP}}(\mathbf{x}_i) \). These transformed feature vectors are then passed to the TSVM, which performs the classification task based on the MLP's output. The TSVM works in this new feature space, allowing it to better classify data that may not be linearly separable in the original input space.
 
 The TSVM is trained using the standard optimization framework, where the feature vectors obtained from the MLP replace the raw input features. This combination of MLP and TSVM allows for the extraction of meaningful high-level features through deep learning and subsequent classification using the powerful transductive inference provided by TSVM.
 
