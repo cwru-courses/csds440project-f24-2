@@ -29,5 +29,17 @@ Zhou et al. evaluate tri-training using the error rate on the test sets. To ensu
 
 Below is a plot of the results for the Australia dataset.
 
+![](comparison_plots/australia.png)
+
+As we can see, different combinations of classifiers were able to improve on regular tri-training for different unlabel rates. combo_1, which uses decision trees, logistic regression, and k nearest neighbors, performed as well as or better than tri-training at high unlabel rates. This makes sense, since these models are flexible and don't rely heavily on strong assumptions. At low unlabel rates, combo_2 (SVM, naive Bayes, decision tree) was the best performer. It was comparable to tri-training at an unlabel rate of 0.2, and did far better at a rate of 0.4. This also makes sense, since SVM and naive Bayes benefit a lot from sufficient labeled data. Overall, I would say that modifiedTriTraining provided some improvement on this dataset, but nothing spectacular. The only unlabel rate where tri-training was significantly outperformed was 0.4, and there was no combination of classifiers that outperformed tri-training across all unlabel rates.
+
+Below is a plot of the results for the ionosphere dataset.
+
+![](comparison_plots/ionosphere.png)
+
+Here, the improvements from modifiedTriTraining are much more pronounced. I believe that this because of the properties of the ionosphere dataset, which has 351 examples and 34 features. With such a small number of examples compared to the number of features, the risk of overfitting for single classifiers is much higher than it was for the Australia dataset, which had 690 examples and 14 features. So, the mitigation of overfitting and increased diversity provided by modifiedTriTraining provide a clear advantage. combo2 was outstanding, reducing the error rate by nearly 5 percentage points for all unlabel rates. combo3 and combo4 also outperformed regular tri-training.
+
+Overall, I would say that modifiedTriTraining proved successful in reducing the error rate. Depending on the properties of the data being used, a set of 3 base learners can be chosen to complement each other's strengths and mitigate each other's weaknesses. modifiedTriTraining showed more improvement on the ionosphere dataset, where overfitting was a greater problem, and increased diversity had greater benefits. So, it provides the most improvement on datasets where regular tri-training is most likely to struggle (note that tri-training's error rate for the ionosphere dataset was significantly higher than the Australia dataset). This shows that the extension is generalizable, targets key weaknesses of tri-training, and is a robust and valuable method.
+
 ## Bibliography
 
